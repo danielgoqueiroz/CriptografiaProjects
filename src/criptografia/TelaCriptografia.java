@@ -26,7 +26,7 @@ public class TelaCriptografia {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				try { 
 					TelaCriptografia window = new TelaCriptografia();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
