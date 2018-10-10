@@ -9,13 +9,17 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
-
+import javax.swing.filechooser.FileFilter;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -146,6 +150,67 @@ public class AES {
 			}		
 			
 		});
+		
+		JButton btnSalva = new JButton("Salva");
+		btnSalva.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				JFileChooser file = new JFileChooser();
+				int retruVal = file.showSaveDialog(null);
+				
+				File f = file.getSelectedFile();
+				BufferedReader writer = null;
+				
+				String currentLine;
+				
+				if (retruVal == JFileChooser.APPROVE_OPTION) {
+					
+					try {
+						writer = new BufferedReader(new FileReader(f));
+						 
+						while((currentLine = writer.readLine()) != null) {
+							System.out.println(currentLine);
+						}
+						
+					} catch (Exception err) {
+						err.printStackTrace();
+					}
+					
+				}
+				
+				
+
+			}
+		});
+		
+		JButton btnCarregar = new JButton("Carregar");
+		btnCarregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser file = new JFileChooser();
+				int retruVal = file.showOpenDialog(null);
+				
+				File f = file.getSelectedFile();
+				BufferedReader writer = null;
+				
+				String currentLine;
+				
+				if (retruVal == JFileChooser.APPROVE_OPTION) {
+					
+					try {
+						writer = new BufferedReader(new FileReader(f));
+						 
+						while((currentLine = writer.readLine()) != null) {
+							System.out.println(currentLine);
+						}
+						
+					} catch (Exception err) {
+						err.printStackTrace();
+					}
+					
+				}
+				
+			}
+		});
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -154,13 +219,19 @@ public class AES {
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(textCodificado, GroupLayout.PREFERRED_SIZE, 404, GroupLayout.PREFERRED_SIZE)
 						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+							.addComponent(textOriginal, GroupLayout.PREFERRED_SIZE, 404, GroupLayout.PREFERRED_SIZE)
 							.addGroup(groupLayout.createSequentialGroup()
 								.addComponent(textSenha, GroupLayout.PREFERRED_SIZE, 203, GroupLayout.PREFERRED_SIZE)
 								.addGap(18)
-								.addComponent(btnCodifica, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(btnDecodifica, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
-							.addComponent(textOriginal, GroupLayout.PREFERRED_SIZE, 404, GroupLayout.PREFERRED_SIZE)))
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+									.addGroup(groupLayout.createSequentialGroup()
+										.addComponent(btnSalva, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addComponent(btnCarregar, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE))
+									.addGroup(groupLayout.createSequentialGroup()
+										.addComponent(btnCodifica, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addComponent(btnDecodifica, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))))))
 					.addContainerGap(20, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
@@ -173,7 +244,11 @@ public class AES {
 						.addComponent(textSenha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnCodifica)
 						.addComponent(btnDecodifica))
-					.addGap(45)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnSalva)
+						.addComponent(btnCarregar))
+					.addGap(16)
 					.addComponent(textCodificado, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
